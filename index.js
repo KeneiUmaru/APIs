@@ -14,10 +14,17 @@ app.post('/updateData', (req, res) => {
     if (existingDataIndex === -1) {
         const gameInfo = { placeId, jobId, playersCount };
         database.push(gameInfo);
-        res.send('Data inserted successfully');
-    } else {;
+        res.json(database);
+    } else {
+        const currentData = database[existingDataIndex];
+
+        if (currentData.playersCount !== playersCount) {
+            currentData.playersCount = playersCount;
+        }
+        res.json(database);
     }
 });
+
 
 app.post('/removeData', (req, res) => {
     const { placeId, jobId } = req.body;
@@ -25,9 +32,9 @@ app.post('/removeData', (req, res) => {
 
     if (dataIndexToRemove !== -1) {
         database.splice(dataIndexToRemove, 1);
-        res.send('Data removed successfully');
+        res.json(database);
     } else {
-        res.send('Data not found in the database');
+        res.json(database);
     }
 });
 
