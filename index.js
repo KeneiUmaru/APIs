@@ -15,8 +15,7 @@ app.post('/updateData', (req, res) => {
         const gameInfo = { placeId, jobId, playersCount };
         database.push(gameInfo);
         res.send('Data inserted successfully');
-    } else {
-        res.send('Data already exists in the database');
+    } else {;
     }
 });
 
@@ -36,7 +35,7 @@ app.get('/servers', (req, res) => {
     if (database.length > 0) {
         res.json(database);
     } else {
-        res.send('No data in the database');
+        res.json(database);
     }
 });
 
