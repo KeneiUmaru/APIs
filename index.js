@@ -9,17 +9,40 @@ const database = [];
 
 app.post('/updateData', (req, res) => {
     const { placeId, jobId, playersCount } = req.body;
+    const existingDataIndex = database.findIndex(data => data.placeId === placeId && data.jobId === jobId);
 
-    const gameInfo = { placeId, jobId, playersCount };
-    database.push(gameInfo);
+    if (existingDataIndex === -1) {
+        const gameInfo = { placeId, jobId, playersCount };
+        database.push(gameInfo);
+        res.send('Data inserted successfully');
+    } else {
+        res.send('Data already exists in the database');
+    }
+});
 
-    res.send('Data inserted successfully');
-    console.log("data is recived")
+app.post('/removeData', (req, res) => {
+    const { placeId, jobId } = req.body;
+    const dataIndexToRemove = database.findIndex(data => data.placeId === placeId && data.jobId === jobId);
+
+    if (dataIndexToRemove !== -1) {
+        database.splice(dataIndexToRemove, 1);
+        res.send('Data removed successfully');
+    } else {
+        res.send('Data not found in the database');
+    }
 });
 
 app.get('/servers', (req, res) => {
-    res.json(database);
-    console.log("data is sent")
+    if (database.length > 0) {
+        res.json(database);
+    } else {
+        res.send('No data in the database');
+    }
+});
+
+app.get('/clearData', (req, res) => {
+    database.length = 0;
+    res.send('Data cleared successfully');
 });
 
 app.listen(port, () => {
