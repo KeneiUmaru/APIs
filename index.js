@@ -9,7 +9,7 @@ const database = [];
 
 app.post('/updateData', (req, res) => {
     const { placeId, jobId, playersCount } = req.body;
-    const existingDataIndex = database.findIndex(data => data.placeId === placeId && data.jobId === jobId);
+    const existingDataIndex = database.findIndex(data => data.placeId === placeId && data.jobId === jobId && data.serverType);
 
     if (existingDataIndex === -1) {
         const gameInfo = { placeId, jobId, playersCount };
@@ -25,10 +25,9 @@ app.post('/updateData', (req, res) => {
     }
 });
 
-
 app.post('/removeData', (req, res) => {
     const { placeId, jobId } = req.body;
-    const dataIndexToRemove = database.findIndex(data => data.placeId === placeId && data.jobId === jobId);
+    const dataIndexToRemove = database.findIndex(data => data.placeId === placeId && data.jobId === jobId && data.serverType);
 
     if (dataIndexToRemove !== -1) {
         database.splice(dataIndexToRemove, 1);
