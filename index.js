@@ -8,11 +8,11 @@ app.use(bodyParser.json());
 const database = [];
 
 app.post('/updateData', (req, res) => {
-    const { placeId, jobId, playersCount } = req.body;
+    const { placeId, jobId, serverType, playersCount } = req.body;
     const existingDataIndex = database.findIndex(data => data.placeId === placeId && data.jobId === jobId && data.serverType);
 
     if (existingDataIndex === -1) {
-        const gameInfo = { placeId, jobId, playersCount };
+        const gameInfo = { placeId, jobId, serverType, playersCount };
         database.push(gameInfo);
         res.json(database);
     } else {
@@ -26,7 +26,7 @@ app.post('/updateData', (req, res) => {
 });
 
 app.post('/removeData', (req, res) => {
-    const { placeId, jobId } = req.body;
+    const { placeId, jobId, serverType } = req.body;
     const dataIndexToRemove = database.findIndex(data => data.placeId === placeId && data.jobId === jobId && data.serverType);
 
     if (dataIndexToRemove !== -1) {
